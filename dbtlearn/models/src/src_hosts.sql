@@ -1,0 +1,21 @@
+{{
+    config(
+        materialized="ephemeral",
+    )
+}}
+
+with
+    hosts as (select * from {{ source("airbnb", "hosts") }}),
+
+    final as (
+        select
+            id as host_id,
+            name as host_name,
+            is_superhost as is_superhost,
+            created_at as created_at,
+            updated_at as updated_at
+        from hosts
+    )
+
+select *
+from final
